@@ -21,6 +21,7 @@ public class MineSweeper {
         this.mineCount = (size / 4);
         this.emptySpaces = size - mineCount;
         this.selectedSpaces = 0;
+
     }
 
     // Oyunu başlatma, start metodu
@@ -41,18 +42,18 @@ public class MineSweeper {
             col = input.nextInt();
 
             // Değer.Formu 10: Kullanıcının seçtiği noktanın dizinin sınırları içerisinde olup olmadığı kontrol edilir
-            if ((row < 0 || row >= rowNumber) || (col < 0 || col >= colNumber)) {
+            if ((row < 0 || row >= this.rowNumber) || (col < 0 || col >= this.colNumber)) {
                 System.out.println("Girdiğiniz koordinatlar yanlıştır. Lütfen tekrar deneyiniz!");
                 // Girilen noktada mayın olup olmadığı kontrol edilir.
-            } else if (map[row][col] != -1) {
+            } else if (this.map[row][col] != -1) {
                 // Kullanıcının seçtiği nokta daha önce açılmış ise uyarı mesajı verilir.
-                if (board[row][col] >= 0) {
+                if (this.board[row][col] >= 0) {
                     System.out.println("Burası zaten açılmış! Başka bir yer seçiniz.");
                 } else {
                     // Değ.Formu 12: Girilen noktada mayın yoksa etrafındaki mayın sayısı veya 0 değeri yazılır
                     int count = isCheck(row, col);
-                    board[row][col] = count;
-                    selectedSpaces++;
+                    this.board[row][col] = count;
+                    this.selectedSpaces++;
                 }
 
                 // Değer.Formu 15: Oyunu kazanma durumunda kullanıcıya bilgi verilir
@@ -73,19 +74,19 @@ public class MineSweeper {
     }
 
     public void gameOver() {
-        for (int i = 0; i < rowNumber; i++) {
-            for (int k = 0; k < colNumber; k++) {
-                if (map[i][k] == -1) {
-                    board[i][k] = map[i][k];
+        for (int i = 0; i < this.rowNumber; i++) {
+            for (int k = 0; k < this.colNumber; k++) {
+                if (this.map[i][k] == -1) {
+                    this.board[i][k] = this.map[i][k];
                 }
             }
         }
-        print(board);
+        print(this.board);
     }
 
     // Değ.Formu 14: Tüm noktalar mayınsız bir şekilde seçilirse oyunu kazanmanın kontrolü yapılır
     public boolean isWin() {
-        return selectedSpaces == emptySpaces;
+        return this.selectedSpaces == this.emptySpaces;
     }
 
     // Girilen değerlerin etrafındaki mayın sayısı kontrol edilir
@@ -102,19 +103,19 @@ public class MineSweeper {
         if (lowerBoundRow < 0) {
             lowerBoundRow = 0;
         }
-        if (upperBoundRow >= rowNumber) {
-            upperBoundRow = rowNumber - 1;
+        if (upperBoundRow >= this.rowNumber) {
+            upperBoundRow = this.rowNumber - 1;
         }
         if (lowerBoundCol < 0) {
             lowerBoundCol = 0;
         }
-        if (upperBoundCol >= colNumber) {
-            upperBoundCol = colNumber - 1;
+        if (upperBoundCol >= this.colNumber) {
+            upperBoundCol = this.colNumber - 1;
         }
         // Girilen nokta etrafındaki mayın sayısı kontrol edilir
         for (int k = lowerBoundRow; k <= upperBoundRow; k++) {
             for (int m = lowerBoundCol; m <= upperBoundCol; m++) {
-                if (map[k][m] == -1) {
+                if (this.map[k][m] == -1) {
                     count++;
                 }
             }
@@ -126,21 +127,21 @@ public class MineSweeper {
     // Oyunun başlangıcı için map ve board hazırlanır
     public void prepareGame() {
         // Mayın olmayan yerler -2 değerini alır
-        for (int i = 0; i < rowNumber; i++) {
-            for (int k = 0; k < colNumber; k++) {
-                map[i][k] = -2;
-                board[i][k] = -2;
+        for (int i = 0; i < this.rowNumber; i++) {
+            for (int k = 0; k < this.colNumber; k++) {
+                this.map[i][k] = -2;
+                this.board[i][k] = -2;
             }
         }
 
         // Değer. Formu 8: Diziye eleman sayısının çeyreği kadar rastgele mayın yerleştirilir
         int randRow, randCol;
         int count = 0;
-        while (count != mineCount) {
-            randRow = rand.nextInt(rowNumber);
-            randCol = rand.nextInt(colNumber);
-            if (map[randRow][randCol] != -1) {
-                map[randRow][randCol] = -1;
+        while (count != this.mineCount) {
+            randRow = rand.nextInt(this.rowNumber);
+            randCol = rand.nextInt(this.colNumber);
+            if (this.map[randRow][randCol] != -1) {
+                this.map[randRow][randCol] = -1;
                 count++;
             }
         }
